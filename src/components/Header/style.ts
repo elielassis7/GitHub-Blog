@@ -13,7 +13,7 @@ export const HeaderContainer = styled.header`
   }
 `
 
-export const ImageLogo = styled.image`
+export const ImageLogo = styled.div`
   img {
     margin-top: 64px;
     height: 98px;

@@ -8,10 +8,21 @@ export interface Profile {
   login: string
   company: string
   follower: number
+  url: string
+}
+
+export interface Issue {
+  id: number
+  title: string
+  created_at: string
+  comments: number
+  owner: string
+  body: string
 }
 
 export interface BlogState {
   profile: Profile
+  issues: Issue[]
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -20,6 +31,12 @@ export function blogReducer(state: BlogState, action: any) {
     case ActionTypesBlog.LOAD_PROFILE:
       return produce(state, (draft) => {
         draft.profile = action.payload
+      })
+
+    case ActionTypesBlog.LOAD_ISSUES:
+      return produce(state, (draft) => {
+        draft.issues = action.payload
+        console.log(draft.issues)
       })
 
     default:
