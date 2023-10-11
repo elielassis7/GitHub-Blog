@@ -3,13 +3,21 @@ import { BodyPost, HeaderPost, PostCard, PostsContainer } from './style'
 import { BlogProvider } from '../../../../context/BlogContext'
 import { formatDistanceToNow, parseISO } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
+import { useNavigate } from 'react-router-dom'
+import { Issue } from '../../../../reducer/BlogDate'
 
 export function Posts() {
   const { issues } = useContext(BlogProvider)
+  const pages = useNavigate()
+
+  function handleViewPost() {
+    pages('/post-page')
+  }
+
   return (
     <PostsContainer>
       {issues.map((issue) => (
-        <PostCard key={issue.id}>
+        <PostCard key={issue.id} onClick={handleViewPost}>
           <HeaderPost>
             <h2>{issue.title}</h2>
             <h4>
