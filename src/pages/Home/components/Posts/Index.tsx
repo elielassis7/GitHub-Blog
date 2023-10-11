@@ -7,17 +7,18 @@ import { useNavigate } from 'react-router-dom'
 import { Issue } from '../../../../reducer/BlogDate'
 
 export function Posts() {
-  const { issues } = useContext(BlogProvider)
+  const { issues, viewPostComplete } = useContext(BlogProvider)
   const pages = useNavigate()
 
-  function handleViewPost() {
+  function handleViewPost(data: Issue) {
     pages('/post-page')
+    viewPostComplete(data)
   }
 
   return (
     <PostsContainer>
       {issues.map((issue) => (
-        <PostCard key={issue.id} onClick={handleViewPost}>
+        <PostCard key={issue.id} onClick={() => handleViewPost(issue)}>
           <HeaderPost>
             <h2>{issue.title}</h2>
             <h4>

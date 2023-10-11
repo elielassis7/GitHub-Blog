@@ -23,6 +23,7 @@ export interface Issue {
 export interface BlogState {
   profile: Profile
   issues: Issue[]
+  viewPost: Issue
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -37,6 +38,11 @@ export function blogReducer(state: BlogState, action: any) {
       return produce(state, (draft) => {
         draft.issues = action.payload
         console.log(draft.issues)
+      })
+
+    case ActionTypesBlog.VIEW_POST_COMPLETE:
+      return produce(state, (draft) => {
+        draft.viewPost = action.payload
       })
 
     default:

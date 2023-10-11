@@ -7,7 +7,11 @@ import {
 } from 'react'
 import { blogReducer, Issue, Profile } from '../reducer/BlogDate'
 import { api } from '../lib/axios'
-import { loadUserProfileAction, loadIssuesAction } from '../reducer/actions'
+import {
+  loadUserProfileAction,
+  loadIssuesAction,
+  viewPostCompleteAction,
+} from '../reducer/actions'
 
 interface BlogProviderProps {
   children: ReactNode
@@ -16,6 +20,8 @@ interface BlogProviderProps {
 interface ContextBlogType {
   profile: Profile
   issues: Issue[]
+  viewPost: Issue
+  viewPostComplete: (data: Issue) => void
 }
 
 export const BlogProvider = createContext({} as ContextBlogType)
@@ -32,9 +38,17 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
       url: '',
     },
     issues: [],
+    viewPost: {
+      id: 0,
+      title: '',
+      created_at: '',
+      comments: 0,
+      owner: '',
+      body: '',
+    },
   })
 
-  const { profile, issues } = GitBlogState
+  const { profile, issues, viewPost } = GitBlogState
 
   const loadDataProfile = useCallback(async () => {
     const response = await api.get('https://api.github.com/users/elielassis7')
@@ -76,6 +90,10 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
     dispatch(loadIssuesAction(newArrayIssue))
   }, [])
 
+  function viewPostComplete(data: Issue) {
+    viewPostCompleteAction(data)
+  }
+
   useEffect(() => {
     async function fetchDataProfile() {
       await loadDataProfile()
@@ -88,7 +106,9 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
   }, [loadDataProfile, loadDataIssues])
 
   return (
-    <BlogProvider.Provider value={{ profile, issues }}>
+    <BlogProvider.Provider
+      value={{ profile, issues, viewPost, viewPostComplete }}
+    >
       {children}
     </BlogProvider.Provider>
   )
