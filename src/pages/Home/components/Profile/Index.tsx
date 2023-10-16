@@ -3,6 +3,7 @@ import {
   DetailsProfile,
   InfoProfile,
   ProfileHeader,
+  Avatar,
 } from './style'
 
 import { useContext } from 'react'
@@ -17,12 +18,15 @@ export function Profile() {
 
   return (
     <ProfileContainer>
-      <img src={profile.avatar} alt="" />
+      <Avatar>
+        <img src={profile.avatar} alt="" />
+      </Avatar>
+
       <InfoProfile>
         <ProfileHeader>
           <label>{profile.name}</label>
           <a href={profile.url}>
-            GitHub
+            Github
             <img src={Arrow} alt="" />
           </a>
         </ProfileHeader>
@@ -38,7 +42,7 @@ export function Profile() {
           </span>
           <span>
             <img src={Group} alt="" />
-            {profile.follower}
+            {profile.follower} {' seguidor(es)'}
           </span>
         </DetailsProfile>
       </InfoProfile>

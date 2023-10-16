@@ -18,6 +18,7 @@ export interface Issue {
   comments: number
   owner: string
   body: string
+  url: string
 }
 
 export interface BlogState {
@@ -37,12 +38,12 @@ export function blogReducer(state: BlogState, action: any) {
     case ActionTypesBlog.LOAD_ISSUES:
       return produce(state, (draft) => {
         draft.issues = action.payload
-        console.log(draft.issues)
       })
 
     case ActionTypesBlog.VIEW_POST_COMPLETE:
       return produce(state, (draft) => {
         draft.viewPost = action.payload
+        console.log(draft.viewPost)
       })
 
     default:

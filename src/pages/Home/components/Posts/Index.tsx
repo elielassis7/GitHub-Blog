@@ -10,9 +10,10 @@ export function Posts() {
   const { issues, viewPostComplete } = useContext(BlogProvider)
   const pages = useNavigate()
 
-  function handleViewPost(data: Issue) {
+  async function handleViewPost(data: Issue) {
+    console.log('passou no card')
+    await viewPostComplete(data)
     pages('/post-page')
-    viewPostComplete(data)
   }
 
   return (

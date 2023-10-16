@@ -11,6 +11,7 @@ import {
   loadUserProfileAction,
   loadIssuesAction,
   viewPostCompleteAction,
+  resetPostCompleteAction,
 } from '../reducer/actions'
 
 interface BlogProviderProps {
@@ -22,6 +23,7 @@ interface ContextBlogType {
   issues: Issue[]
   viewPost: Issue
   viewPostComplete: (data: Issue) => void
+  resetPostComplete: () => void
 }
 
 export const BlogProvider = createContext({} as ContextBlogType)
@@ -45,6 +47,7 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
       comments: 0,
       owner: '',
       body: '',
+      url: '',
     },
   })
 
@@ -78,6 +81,7 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
         comments: number
         user: { login: string }
         body: string
+        url: string
       }) => ({
         id: issue.number,
         title: issue.title,
@@ -91,7 +95,20 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
   }, [])
 
   function viewPostComplete(data: Issue) {
-    viewPostCompleteAction(data)
+    dispatch(viewPostCompleteAction(data))
+  }
+
+  function resetPostComplete() {
+    const dataReset: Issue = {
+      id: 0,
+      title: '',
+      created_at: '',
+      comments: 0,
+      owner: '',
+      body: '',
+      url: '',
+    }
+    dispatch(resetPostCompleteAction(dataReset))
   }
 
   useEffect(() => {
@@ -107,7 +124,7 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
 
   return (
     <BlogProvider.Provider
-      value={{ profile, issues, viewPost, viewPostComplete }}
+      value={{ profile, issues, viewPost, viewPostComplete, resetPostComplete }}
     >
       {children}
     </BlogProvider.Provider>
