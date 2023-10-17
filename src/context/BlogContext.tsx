@@ -12,6 +12,7 @@ import {
   loadIssuesAction,
   viewPostCompleteAction,
   resetPostCompleteAction,
+  filterPostsAction,
 } from '../reducer/actions'
 
 interface BlogProviderProps {
@@ -24,6 +25,7 @@ interface ContextBlogType {
   viewPost: Issue
   viewPostComplete: (data: Issue) => void
   resetPostComplete: () => void
+  filterPost: (data: string) => void
 }
 
 export const BlogProvider = createContext({} as ContextBlogType)
@@ -81,7 +83,7 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
         comments: number
         user: { login: string }
         body: string
-        url: string
+        html_url: string
       }) => ({
         id: issue.number,
         title: issue.title,
@@ -89,6 +91,7 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
         comments: issue.comments,
         owner: issue.user.login,
         body: issue.body,
+        url: issue.html_url,
       }),
     )
     dispatch(loadIssuesAction(newArrayIssue))
@@ -111,6 +114,35 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
     dispatch(resetPostCompleteAction(dataReset))
   }
 
+  async function filterPost(query: string) {
+    const response = await api.get('https://api.github.com/search/issues', {
+      params: {
+        q: `repo:elielassis7/GitHub-Blog is:issue ${query}`,
+      },
+    })
+    const arrayIssue = response.data.items
+    const newArrayIssueFilter: Issue[] = arrayIssue.map(
+      (issue: {
+        number: number
+        title: string
+        created_at: string
+        comments: number
+        user: { login: string }
+        body: string
+        html_url: string
+      }) => ({
+        id: issue.number,
+        title: issue.title,
+        created_at: issue.created_at,
+        comments: issue.comments,
+        owner: issue.user.login,
+        body: issue.body,
+        url: issue.html_url,
+      }),
+    )
+    dispatch(filterPostsAction(newArrayIssueFilter))
+  }
+
   useEffect(() => {
     async function fetchDataProfile() {
       await loadDataProfile()
@@ -124,7 +156,14 @@ export function GitBlogContextProvider({ children }: BlogProviderProps) {
 
   return (
     <BlogProvider.Provider
-      value={{ profile, issues, viewPost, viewPostComplete, resetPostComplete }}
+      value={{
+        profile,
+        issues,
+        viewPost,
+        viewPostComplete,
+        resetPostComplete,
+        filterPost,
+      }}
     >
       {children}
     </BlogProvider.Provider>

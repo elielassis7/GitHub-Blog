@@ -1,8 +1,9 @@
 import { useContext, useEffect } from 'react'
 import { HeaderViewPost } from './components/HeaderViewPost/Index'
-import { ViewPostContainer } from './style'
+import { ViewPostContainer, BodyPost } from './style'
 import { BlogProvider } from '../../context/BlogContext'
 import { useNavigate } from 'react-router-dom'
+import Markdown from 'react-markdown'
 
 export function PostPage() {
   const { viewPost } = useContext(BlogProvider)
@@ -21,6 +22,9 @@ export function PostPage() {
   return (
     <ViewPostContainer>
       <HeaderViewPost />
+      <BodyPost>
+        <Markdown>{viewPost.body}</Markdown>
+      </BodyPost>
     </ViewPostContainer>
   )
 }

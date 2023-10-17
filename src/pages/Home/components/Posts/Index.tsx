@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { BodyPost, HeaderPost, PostCard, PostsContainer } from './style'
 import { BlogProvider } from '../../../../context/BlogContext'
 import { formatDistanceToNow, parseISO } from 'date-fns'
@@ -15,6 +15,8 @@ export function Posts() {
     await viewPostComplete(data)
     pages('/post-page')
   }
+
+  useEffect(() => {}, [issues])
 
   return (
     <PostsContainer>

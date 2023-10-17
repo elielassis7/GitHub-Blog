@@ -5,6 +5,7 @@ export enum ActionTypesBlog {
   LOAD_ISSUES = 'LOAD_ISSUES',
   VIEW_POST_COMPLETE = 'VIEW_POST_COMPLETE',
   RESET_POST_COMPLETE = 'RESET_POST_COMPLETE',
+  FILTER_POST = 'FILTER_POST',
 }
 
 export function loadUserProfileAction(data: Profile) {
@@ -31,6 +32,13 @@ export function viewPostCompleteAction(data: Issue) {
 export function resetPostCompleteAction(data: Issue) {
   return {
     type: 'RESET_POST_COMPLETE',
+    payload: data,
+  }
+}
+
+export function filterPostsAction(data: Issue[]) {
+  return {
+    type: 'FILTER_POST',
     payload: data,
   }
 }

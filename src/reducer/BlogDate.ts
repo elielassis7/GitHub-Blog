@@ -43,7 +43,16 @@ export function blogReducer(state: BlogState, action: any) {
     case ActionTypesBlog.VIEW_POST_COMPLETE:
       return produce(state, (draft) => {
         draft.viewPost = action.payload
-        console.log(draft.viewPost)
+      })
+
+    case ActionTypesBlog.FILTER_POST:
+      return produce(state, (draft) => {
+        draft.issues = action.payload
+      })
+
+    case ActionTypesBlog.RESET_POST_COMPLETE:
+      return produce(state, (draft) => {
+        draft.viewPost = action.payload
       })
 
     default:
