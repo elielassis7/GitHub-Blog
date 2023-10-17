@@ -6,14 +6,14 @@ import {
   Avatar,
 } from './style'
 
-import { useContext } from 'react'
+import { memo, useContext } from 'react'
 import { BlogProvider } from '../../../../context/BlogContext'
 import Git from '../../../../assets/github.svg'
 import Build from '../../../../assets/building-solid.svg'
 import Group from '../../../../assets/user-group-solid.svg'
 import Arrow from '../../../../assets/arrow-up-right-from-square-solid.svg'
 
-export function Profile() {
+function ProfileComponent() {
   const { profile } = useContext(BlogProvider)
 
   return (
@@ -49,3 +49,5 @@ export function Profile() {
     </ProfileContainer>
   )
 }
+
+export const Profile = memo(ProfileComponent)
